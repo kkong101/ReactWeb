@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+
+
 
 
 const userSchema = mongoose.Schema({
@@ -56,37 +59,29 @@ userSchema.pre('save', (next) => {
 
 })
 
-app.post('/login', (req, res) => {
-    User.findOne({ email: req.body.email }, (err, userInfo) => {
-        if(!userInfo) {
-            return res.json({
-                loginSuccess: false,
-                message: "Don't have user information"
-            })
-        }
-
-        userInfo.comparePassword(req.body.password, (err, isMatch) => {
-            if(!isMatch) return res.json({ loginSuccess: false, message: "Wrong password"});
-            user.generateToken((err, user) => {
-                
-            })
-        })
-
-
-    })
-})
 
 
 userSchema.methods.comparePassword = (plainPassword, cb) => {
     bcrypt.compare(plainPassword, this.password, (err,isMatch)=> {
-        if(err) return cb(err),
+        if(err) return cb(err);
         cb(null, isMatch)
     })
 }
 
 userSchema.methods.generateToken = (cb) => {
 
+    var user = this;
+
+    var token = jwt.sign(user._id.toHexString(), 'secretToken');
+
+    user.token = token;
+    user.save((err, user) => {
+        if(err) return cb(err)
+        cb(null,user)
+    })
 }
+
+
 
 const User = mongoose.model('User', userSchema)
 

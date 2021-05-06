@@ -1,14 +1,17 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const config = require('./config/key')
 const mongoose = require('mongoose')
 const {User} = require('./models/User')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
-app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-mongoose.connect('mongodb+srv://test:test@cluster.rpjbh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect(config.MONGO_URI, {
     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 })
     .then(() => {
@@ -26,3 +29,28 @@ app.post('/register', (req,res) => {
         })
     })
 })
+
+app.post('/login', (req, res) => {
+    User.findOne({ email: req.body.email }, (err, userInfo) => {
+        if(!userInfo) {
+            return res.json({
+                loginSuccess: false,
+                message: "Don't have user information"
+            })
+        }
+
+        userInfo.comparePassword(req.body.password, (err, isMatch) => {
+            if(!isMatch) return res.json({ loginSuccess: false, message: "Wrong password"});
+            user.generateToken((err, user) => {
+                if(err) return res.status(400).send(err);
+                
+                res.cookie("x_auth", user.token)
+                  .status(200)
+                  .json({ loginSuccess: true, userId: user._id});
+            })
+        })
+    })
+})
+
+
+
