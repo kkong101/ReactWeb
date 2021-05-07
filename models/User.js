@@ -58,10 +58,10 @@ userSchema.pre('save', function (next) {
 
 
 
-userSchema.methods.comparePassword = (plainPassword, cb) => {
+userSchema.methods.comparePassword = function (plainPassword, cb) {
     bcrypt.compare(plainPassword, this.password, (err,isMatch)=> {
         if(err) return cb(err);
-        cb(null, isMatch)
+        cb(null, isMatch);
     })
 }
 
@@ -78,7 +78,7 @@ userSchema.methods.generateToken = function (cb) {
 }
 
 
-userSchema.methods.findByToken = function(token, cb) {
+userSchema.statics.findByToken = function (token, cb) {
     var user = this;
 
     jwt.verify(token,'secretToken', function(err, decoded) {

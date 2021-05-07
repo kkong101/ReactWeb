@@ -34,7 +34,6 @@ app.post('/api/users/register', (req,res) => {
     const user = new User(req.body)
 
     user.save((err,userInfo) => {
-        console.log(err)
         if(err) return res.status(400).json({success: false, err})
         return res.status(200).json({
             success: true
@@ -50,10 +49,12 @@ app.post('/api/users/login', (req, res) => {
                 message: "Don't have user information"
             })
         }
+        
+ 
 
         userInfo.comparePassword(req.body.password, (err, isMatch) => {
             if(!isMatch) return res.json({ loginSuccess: false, message: "Wrong password"});
-            user.generateToken((err, user) => {
+            userInfo.generateToken((err, user) => {
                 if(err) return res.status(400).send(err);
                 
                 res.cookie("x_auth", user.token)
@@ -77,6 +78,15 @@ app.get('/api/users/auth', auth , (req,res) => {
         role: req.user.role,
         image: req.user.image
     })
-
 })
 
+app.get('/api/users/logout', auth, (req,res) => {
+
+    // 토큰 삭제 
+    User.findOneAndUpdate({ _id: req.user._id}, {token: ""}, (err, user) => {
+        if(err) return res.json({success: false, err});
+        return res.status(200).send({
+            success: true
+        })
+    })
+});
