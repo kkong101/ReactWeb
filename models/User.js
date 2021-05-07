@@ -4,9 +4,6 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
-
-
-
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -39,7 +36,7 @@ const userSchema = mongoose.Schema({
 })
 
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
     var user = this;
 
     if(user.isModified('password')) {

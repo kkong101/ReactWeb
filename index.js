@@ -11,6 +11,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+  })
+
 mongoose.connect(config.MONGO_URI, {
     useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 })
@@ -19,11 +23,17 @@ mongoose.connect(config.MONGO_URI, {
     })
     .catch(err => console.log(err))
 
+app.get('/', (req,res) => {
+    res.send("hello");
+})
+
 
 app.post('/register', (req,res) => {
     const user = new User(req.body)
+
     user.save((err,userInfo) => {
-        if(err) return res.json({success: false, err})
+        console.log(err)
+        if(err) return res.status(400).json({success: false, err})
         return res.status(200).json({
             success: true
         })
