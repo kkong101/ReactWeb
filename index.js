@@ -4,8 +4,10 @@ const port = 3000
 const config = require('./config/key')
 const mongoose = require('mongoose')
 const {User} = require('./models/User')
+const {auth} = require('./middleware/auth')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -28,7 +30,7 @@ app.get('/', (req,res) => {
 })
 
 
-app.post('/register', (req,res) => {
+app.post('/api/users/register', (req,res) => {
     const user = new User(req.body)
 
     user.save((err,userInfo) => {
@@ -40,7 +42,7 @@ app.post('/register', (req,res) => {
     })
 })
 
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
     User.findOne({ email: req.body.email }, (err, userInfo) => {
         if(!userInfo) {
             return res.json({
@@ -62,5 +64,19 @@ app.post('/login', (req, res) => {
     })
 })
 
+// middleware를 통하여 검증 진행
+app.get('/api/users/auth', auth , (req,res) => {
+   
+    // 일치하여 로그인 되면 회원 정도 받기 
+    res.status(200).json({
+        _id : req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        email : req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    })
 
+})
 

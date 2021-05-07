@@ -65,10 +65,9 @@ userSchema.methods.comparePassword = (plainPassword, cb) => {
     })
 }
 
-userSchema.methods.generateToken = (cb) => {
+userSchema.methods.generateToken = function (cb) {
 
     var user = this;
-
     var token = jwt.sign(user._id.toHexString(), 'secretToken');
 
     user.token = token;
@@ -78,6 +77,17 @@ userSchema.methods.generateToken = (cb) => {
     })
 }
 
+
+userSchema.methods.findByToken = function(token, cb) {
+    var user = this;
+
+    jwt.verify(token,'secretToken', function(err, decoded) {
+        user.findOne({ "_id": decoded, "token" : token } , function(err, user) {
+            if(err) return cb(err);
+            cb(null,user);
+        })
+    })
+}
 
 
 const User = mongoose.model('User', userSchema)
