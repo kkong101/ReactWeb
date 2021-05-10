@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 5000
 const config = require('./config/key')
 const mongoose = require('mongoose')
 const {User} = require('./models/User')
@@ -26,7 +26,7 @@ mongoose.connect(config.MONGO_URI, {
     .catch(err => console.log(err))
 
 app.get('/', (req,res) => {
-    res.send("hello");
+    res.send("Server Page");
 })
 
 
@@ -49,8 +49,6 @@ app.post('/api/users/login', (req, res) => {
                 message: "Don't have user information"
             })
         }
-        
- 
 
         userInfo.comparePassword(req.body.password, (err, isMatch) => {
             if(!isMatch) return res.json({ loginSuccess: false, message: "Wrong password"});
@@ -90,3 +88,6 @@ app.get('/api/users/logout', auth, (req,res) => {
         })
     })
 });
+
+app.get('/api/hello', (req, res) => res.send("안녕하세요~"))
+
