@@ -20,7 +20,7 @@ export const LandingPage = (props) => {
                     alert('로그아웃 성공');
                     props.history.push('/login');
                 } else {
-                    alert('로그아웃 실패');
+                    alert('로그인을 먼저 진행해주세요.');
                 }
             });
     }

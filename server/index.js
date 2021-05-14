@@ -65,7 +65,6 @@ app.post('/api/users/login', (req, res) => {
 
 // middleware를 통하여 검증 진행
 app.get('/api/users/auth', auth , (req,res) => {
-   
     // 일치하여 로그인 되면 회원 정도 받기 
     res.status(200).json({
         _id : req.user._id,
