@@ -1,9 +1,14 @@
 import React,{useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {registerUser} from '../../../_actions/user_action';
+import {useForm} from 'react-hook-form';
 import { withRouter } from 'react-router-dom';
 
+
 const RegisterPage = (props) => {
+
+    const {register, watch} = useForm();
+    console.log(watch('email'))
 
     const dispatch = useDispatch();
 
@@ -59,9 +64,9 @@ const RegisterPage = (props) => {
             display: 'flex', justifyContent: 'center', alignItems: 'center',
              width: '100%', height: '100vh'
         }}>
-            <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={onSubmitHandler}>
+            <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={onSubmitHandler} {...register("email")}>
                 <label>Email</label>
-                <input type="email" value={Email} onChange={onEmailHandler}></input>
+                <input name="email" type="email" value={Email} onChange={onEmailHandler} />
                 <label>Name</label>
                 <input type="text" value={Name} onChange={onNameHandler}></input>
                 <label>Password</label>
