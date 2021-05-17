@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {registerUser} from '../../../_actions/user_action';
 import {useForm} from 'react-hook-form';
@@ -7,43 +7,17 @@ import { withRouter } from 'react-router-dom';
 
 const RegisterPage = (props) => {
 
-    const {register, watch} = useForm();
-    console.log(watch('email'))
-
+    const {register, watch, handleSubmit, formState: { errors }} = useForm();
+    const password = useRef();
+    password.current = watch("password", "");
+    
     const dispatch = useDispatch();
 
-    const [Email, setEmail] = useState("")
-    const [Password, setPassword] = useState("")
-    const [Name, setName] = useState("")
-    const [ConfirmPassword, setConfirmPassword] = useState("")
-
-    const onEmailHandler = (e) => {
-        setEmail(e.currentTarget.value)
-    }
-
-    const onNameHandler = (e) => {
-        setName(e.currentTarget.value)
-    }
-
-    const onPasswordHandler = (e) => {
-        setPassword(e.currentTarget.value)
-    }
-
-    const onConfirmPasswordHandler = (e) => {
-        setConfirmPassword(e.currentTarget.value)
-    }
-
-    const onSubmitHandler = (e) => {
-        e.preventDefault()
-
-        if(Password !== ConfirmPassword) {
-            return alert("동일한 비밀번호를 입력하세요.")
-        }
-
+    const onSubmit = (data) => {
         let body = {
-            email: Email,
-            name: Name,
-            password: Password
+            email: data.email,
+            name: data.name,
+            password: data.password
         }
 
         dispatch(registerUser(body))
@@ -55,7 +29,9 @@ const RegisterPage = (props) => {
                     alert("회원가입을 실패하였습니다.");
                 }
             })
-    }
+    };
+   
+
 
 
 
@@ -64,18 +40,49 @@ const RegisterPage = (props) => {
             display: 'flex', justifyContent: 'center', alignItems: 'center',
              width: '100%', height: '100vh'
         }}>
-            <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={onSubmitHandler} {...register("email")}>
+            <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={handleSubmit(onSubmit)} >
                 <label>Email</label>
-                <input name="email" type="email" value={Email} onChange={onEmailHandler} />
-                <label>Name</label>
-                <input type="text" value={Name} onChange={onNameHandler}></input>
-                <label>Password</label>
-                <input type="password" value={Password} onChange={onPasswordHandler}></input>
+                <input name="email" type="email" {...register("email",{ required: true, pattern: /^\S+@\S+$/i })} />
+                {errors.email && (<p>This email field is required</p>) }
+                
 
-                <label>Confirm Password</label>
-                <input type="password" value={ConfirmPassword} onChange={onConfirmPasswordHandler}></input>
-                <br/>
-                <button>회원가입</button>
+                <label>Name</label>
+                <input name="name" {...register("name",{ required: true, maxLength: 10 })}/>
+                {errors.name && errors.name.type === "required"
+                    && <p> This name field is required</p>}
+                {errors.name && errors.name.type === "maxLength"
+                    && <p> Your input exceed maximum length</p>}
+                {console.log(errors.name)}
+                <label>Password</label>
+                <input
+                    name="password"
+                    type="password"
+                     {...register("password",{ required: true, minLength: 6 })}
+                />
+                {errors.password && errors.password.type === "required"
+                    && <p> This name field is required</p>}
+                {errors.password && errors.password.type === "minLength"
+                    && <p> Password must have at least 6 characters</p>}
+
+                <label>Password Confirm</label>
+                <input
+                    type="password"
+                    name="password_confirm"
+                     {...register("password_confirm", {
+                    required: true,
+                    validate: value =>
+                        value === password.current || "The Passwords do not matched"
+                    })}
+                />
+
+                {errors.password_confirm && errors.password_confirm.type === "required"
+                    && <p> This password confirm field is required</p>}
+                {errors.password_confirm && errors.password_confirm.type === "validate"
+                    && <p>{errors.password_confirm.message}</p>}
+
+                <input type="submit"
+                    style={{ marginTop: '40px' }}
+                />
             </form>
         </div>
     )
