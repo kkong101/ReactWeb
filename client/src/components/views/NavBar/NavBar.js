@@ -27,7 +27,7 @@ function NavBar() {
           <LeftMenu mode="horizontal" />
         </div>
         <div className="menu_rigth">
-          <RightMenu mode="horizontal" />
+          <RightMenu mode="horizontal"/>
         </div>
         <Button
           className="menu__mobile-button"
