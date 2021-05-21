@@ -50,7 +50,6 @@ function UploadProductPage() {
 
             <Form>
                 {/* {drop zone} */}
-
                 <br/>
                 <label>이름</label>
                 <Input onChange={titleChangeHandler} value={Title} />
@@ -68,7 +67,6 @@ function UploadProductPage() {
                     { Continents.map(item => (
                         <option key={item.key} value={item.key}>{item.value}</option>
                     ))}
-                    
                 </select>
                 <br/>
                 <br/>
