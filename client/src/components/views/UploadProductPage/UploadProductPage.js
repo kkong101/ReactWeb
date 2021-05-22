@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import {Typography, Button, Form, Input} from 'antd'
 import { FileProtectOutlined } from '@ant-design/icons';
+import FileUpload from "../../../utils/FileUpload"
 
 const { TextArea } = Input
 
@@ -50,6 +51,9 @@ function UploadProductPage() {
 
             <Form>
                 {/* {drop zone} */}
+
+                <FileUpload />
+
                 <br/>
                 <label>이름</label>
                 <Input onChange={titleChangeHandler} value={Title} />
