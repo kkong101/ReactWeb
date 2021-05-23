@@ -79,6 +79,8 @@ app.get('/api/users/auth', auth , (req,res) => {
     })
 })
 
+
+
 app.get('/api/users/logout', auth, (req,res) => {
 
     // 토큰 삭제 
@@ -91,4 +93,9 @@ app.get('/api/users/logout', auth, (req,res) => {
 });
 
 app.get('/api/hello', (req, res) => res.send("안녕하세요~"))
+
+
+
+// router 기능 부분 
+app.use('/api/product', require('./routes/product'))
 
