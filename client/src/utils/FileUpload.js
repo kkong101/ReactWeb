@@ -14,7 +14,7 @@ function FileUpload() {
         let formData = new FormData();
 
         const config = {
-            header: { 'content-type' :  'multipart/form-data'}
+            header: { 'content-type' :  'multipart/fomr-data'}
         }
         formData.append("file", files[0])
 
@@ -46,7 +46,7 @@ function FileUpload() {
             <div style ={{ display: 'flex', width: '350px', height: '240px', overflowX: 'scroll'}}>
                 {Images.map( (image,index) => (
                         <div key={index}>
-                            <img style={{minWidth: '300px', width:'310px', height: '230px'}} src={`./${image}`} />
+                            <img style={{minWidth: '300px', width:'310px', height: '230px'}} src={`http://localhost:5000/${image}`} />
                         </div>
                 ))}
             </div>

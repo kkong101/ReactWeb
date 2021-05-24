@@ -98,4 +98,5 @@ app.get('/api/hello', (req, res) => res.send("안녕하세요~"))
 
 // router 기능 부분 
 app.use('/api/product', require('./routes/product'))
+app.use('/uploads', express.static('uploads'))
 
