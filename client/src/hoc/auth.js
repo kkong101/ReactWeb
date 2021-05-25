@@ -1,6 +1,7 @@
 import React,{useEffect} from 'react';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {auth} from '../_actions/user_action';
+
 
 /**
  * 
@@ -13,6 +14,9 @@ import {auth} from '../_actions/user_action';
 export default function (SpecificComponent, option, adminRoute=null) {
 
     function AuthentificationCheck(props) {
+
+ 
+        let user = useSelector(state => state.user)
         const dispatch = useDispatch();
 
         useEffect(() => {
@@ -34,14 +38,11 @@ export default function (SpecificComponent, option, adminRoute=null) {
                         }
                     }
                 }
-
-
-
             })
         }, [])
 
         return ( 
-            <SpecificComponent />
+            <SpecificComponent {...props} user={user} />
         )
     }
 

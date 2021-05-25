@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import {Typography, Button, Form, Input} from 'antd'
 import { FileProtectOutlined } from '@ant-design/icons';
 import FileUpload from "../../../utils/FileUpload"
+import Axios from 'axios';
 
 const { TextArea } = Input
 
@@ -15,7 +16,7 @@ const Continents = [
     {key :7, value: "Antarctica"}
 ]
 
-function UploadProductPage() {
+function UploadProductPage(props) {
 
     const [Title, setTitle] = useState("")
     const [Description, setDescription] = useState("")
@@ -40,9 +41,37 @@ function UploadProductPage() {
     }
 
     const updateImages = (newImages) => {
+    
         setImages(newImages);
     }
 
+    const submitHandler = (event) => {
+        //event.preventDefault();
+        alert('이게 작동이 안함 ');
+        if(!Title || !Description || !Price || !Continent || !Images) {
+            return alert("모든값을 넣어주세요. ")
+        }
+
+        const body = {
+            writer: props.user.userData._id,
+            title: Title,
+            description: Description,
+            price: Price,
+            images: Images,
+            continents : Continent
+        }
+        
+        Axios.post("/api/product". body)
+            .then(response => {
+                if(response.data.success) {
+                    alert('업로드 성공')
+                    props.history.push('/')
+                } else {
+                    alert('업로드 실패')
+                }
+            })
+
+    }
 
     return (
         <div style={{maxWidth: '700px', margin: '2rem auto'}}>
@@ -53,7 +82,7 @@ function UploadProductPage() {
                 <h1> 여행 상품 업로드</h1>
             </div>
 
-            <Form>
+            <Form onFinish={ submitHandler }>
                 {/* {drop zone} */}
 
                 <FileUpload refreshFunction={updateImages}/>
@@ -78,7 +107,7 @@ function UploadProductPage() {
                 </select>
                 <br/>
                 <br/>
-                <Button>확인</Button>
+                <Button type="primary" htmlType="submit">확인</Button>
 
             </Form>
         </div>

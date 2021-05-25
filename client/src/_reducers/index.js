@@ -3,7 +3,7 @@ import user from './user_reducer';
 
 
 const rootReducer = combineReducers({
-    user
+    user,
 })
 
 export default rootReducer;
