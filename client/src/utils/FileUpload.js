@@ -7,8 +7,6 @@ function FileUpload(props) {
 
     const [Images, setImages] = useState([])
 
-
-
     const dropHandler = (files) => {
 
         let formData = new FormData();
