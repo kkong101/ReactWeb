@@ -8,32 +8,25 @@ export const LandingPage = (props) => {
 
     useEffect(() => {
         return () => {
-            axios.get('/api/hello')
-            .then(response => console.log(response.data))
+            axios.post('/api/product/products')
+            .then(response => {
+                if (response.data.success) {
+                    console.log(response.data)
+                } else {
+                    alert("상품을 가져오는데 실패하였습니다. ")
+                }
+                
+            })
         }
     }, [])  
 
-    const onClickHandler = () => {
-        axios.get('/api/users/logout')
-            .then(response => {
-                if(response.data.success) {
-                    alert('로그아웃 성공');
-                    props.history.push('/login');
-                } else {
-                    alert('로그인을 먼저 진행해주세요.');
-                }
-            });
-    }
 
     return (
         <div style={{ 
             display: 'flex', justifyContent: 'center', alignItems: 'center',
              width: '100%', height: '100vh'
         }}>
-            <h2>시작페이지</h2>
-            <button onClick={onClickHandler}>
-                로그아웃
-            </button>
+
         </div>
     )
 }
