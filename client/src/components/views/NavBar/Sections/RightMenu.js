@@ -44,5 +44,5 @@ function RightMenu(props) {
   }
 }
 
-export default withRouter(RightMenu);
+export default RightMenu
 
