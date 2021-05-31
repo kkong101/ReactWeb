@@ -4,6 +4,7 @@ import {useEffect} from 'react'
 import { withRouter } from 'react-router-dom';
 import {Icon, Col, Card, Row, Carousel } from 'antd';
 import ImagesSlider from '../../../utils/ImageSlider'
+
 const { Meta } = Card;
 
 
@@ -12,28 +13,51 @@ export const LandingPage = (props) => {
 
     const [Products, setProducts] = useState([])
     const [Skip, setSkip] = useState(0)
-    
+    const [Limit, setLimit] = useState(8)
+    const [PostSize, setPostSize] = useState(0)
+
+      
 
     useEffect(() => {
-        
-        return () => {
-            axios.post('/api/product/products')
-            .then(response => {
-                
-                if (response.data.success) {
-                    setProducts(response.data.productInfo)
-                    console.log('response.data.productInfo : ' + response.data)
-                    
-                } else {
-                    alert("상품을 가져오는데 실패하였습니다. ")
-                }
-                
-            })
+
+        let body = {
+            skip: Skip,
+            limit: Limit
         }
+
+        getProducts(body)
     }, [])  
 
-    const loadMoreHandler = (event) => {
-        
+    const getProducts = (body) => {
+        axios.post('/api/product/products', body)
+        .then(response => {
+            
+            if (response.data.success) {
+                if(body.loadMore) { 
+                    setProducts([...Products, ...response.data.productInfo])
+                } else {
+                    setProducts(response.data.productInfo)
+                }
+                setPostSize(response.data.PostSize)
+            } else {
+                alert("상품을 가져오는데 실패하였습니다. ")
+            }
+            
+        })
+    }
+
+    const loadMoreHandler = () => {
+
+        let skip = Skip + Limit
+
+        let body = {
+            skip: Skip,
+            limit: Limit,
+            loadMore: true
+        }
+
+        getProducts(body)
+        setSkip(skip)
     }
 
 
@@ -57,9 +81,16 @@ export const LandingPage = (props) => {
              {renderCards}
             </Row>
 
-            <div style={{ justifyContent: 'center'}}>
-                <button onClick={loadMoreHandler}>더보기</button>
-            </div>
+            <br/>
+
+            {
+                PostSize >= Limit &&
+                    <div style={{ display: 'flex', justifyContent: 'center'}}>
+                    <button onClick={loadMoreHandler}>더보기</button>
+                    </div>
+            }
+
+
         </div>
     )
 }
