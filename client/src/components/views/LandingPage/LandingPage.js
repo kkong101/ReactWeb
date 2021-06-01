@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
-import axios from 'axios'
-import {useEffect} from 'react'
+import React, {useState} from 'react';
+import axios from 'axios';
+import {useEffect} from 'react';
 import { withRouter } from 'react-router-dom';
 import {Icon, Col, Card, Row, Carousel } from 'antd';
-import ImagesSlider from '../../../utils/ImageSlider'
+import ImagesSlider from '../../../utils/ImageSlider';
+import CheckBox from './Sections/CheckBox';
+import {continents } from './Sections/Datas';
 
 const { Meta } = Card;
-
-
 
 export const LandingPage = (props) => {
 
@@ -17,7 +17,6 @@ export const LandingPage = (props) => {
     const [PostSize, setPostSize] = useState(0)
 
       
-
     useEffect(() => {
 
         let body = {
@@ -76,6 +75,12 @@ export const LandingPage = (props) => {
             <div style= {{ textAlign: 'center'}}>
                 <h2> Let's travel anywhere </h2>
             </div>
+
+
+            {/* Setions component */}
+            <CheckBox list={continents}/>
+            
+
 
             <Row gutter={[16,16]}>
              {renderCards}
