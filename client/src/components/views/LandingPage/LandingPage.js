@@ -15,7 +15,11 @@ export const LandingPage = (props) => {
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(8)
     const [PostSize, setPostSize] = useState(0)
-
+    const [Filters, setFilters] = useState({
+        continents: [],
+        price : []
+    }
+    )
       
     useEffect(() => {
 
@@ -69,6 +73,26 @@ export const LandingPage = (props) => {
         </Col>
     })
 
+    const showFilteredResults = (filters) => {
+
+        let body = {
+            skip: 0,
+            limit: Limit,
+            filters: filters
+        }
+
+        getProducts(body)
+    }
+
+    const handleFilters = (filters, category) => {
+        const newFilters = {...Filters}
+
+        newFilters[category] = filters
+
+        showFilteredResults(newFilters)
+
+    }
+
 
     return (
         <div style={{ width: '75%', margin: '3rem auto'  }}>
@@ -78,7 +102,7 @@ export const LandingPage = (props) => {
 
 
             {/* Setions component */}
-            <CheckBox list={continents}/>
+            <CheckBox list={continents} handleFilters={filter => handleFilters(filter,"continents")}/>
             
 
 
