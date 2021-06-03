@@ -5,7 +5,8 @@ import { withRouter } from 'react-router-dom';
 import {Icon, Col, Card, Row, Carousel } from 'antd';
 import ImagesSlider from '../../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
-import {continents } from './Sections/Datas';
+import RadioBox from './Sections/RadioBox'
+import {continents,price } from './Sections/Datas';
 
 const { Meta } = Card;
 
@@ -82,6 +83,7 @@ export const LandingPage = (props) => {
         }
 
         getProducts(body)
+        setSkip(0)
     }
 
     const handleFilters = (filters, category) => {
@@ -101,9 +103,14 @@ export const LandingPage = (props) => {
             </div>
 
 
-            {/* Setions component */}
-            <CheckBox list={continents} handleFilters={filter => handleFilters(filter,"continents")}/>
-            
+            <Row gutter={[16,16]}>
+                <Col lg={12} xs={24}>
+                    <CheckBox list={continents} handleFilters={filter => handleFilters(filter,"continents")}/>
+                </Col>
+                <Col lg={12} xs={24}>
+                    
+                </Col>
+            </Row>
 
 
             <Row gutter={[16,16]}>
