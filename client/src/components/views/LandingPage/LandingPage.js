@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import {Icon, Col, Card, Row, Carousel } from 'antd';
 import ImagesSlider from '../../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
-import RadioBox from './Sections/RadioBox'
+import RadioBox from './Sections/RadioBox';
 import {continents,price } from './Sections/Datas';
 
 const { Meta } = Card;
@@ -108,10 +108,9 @@ export const LandingPage = (props) => {
                     <CheckBox list={continents} handleFilters={filter => handleFilters(filter,"continents")}/>
                 </Col>
                 <Col lg={12} xs={24}>
-                    
+                    <RadioBox list={price} handleFilters={filter => handleFilters(filter,"price")}/>
                 </Col>
             </Row>
-
 
             <Row gutter={[16,16]}>
              {renderCards}

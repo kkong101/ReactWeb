@@ -9,6 +9,8 @@ function RadioBox(props) {
     const [Value, setValue] = useState(0)
 
     const renderRadioboxLists = () => (
+        
+
         props.list && props.list.map(value => (
             <Radio key = {value._id} value={value._id}> {value.name}  </Radio>
         ))
@@ -16,13 +18,14 @@ function RadioBox(props) {
 
     const handleChange = (event) => {
         setValue(event.target.value)
+        props.handleFilters(event.target.value)
     }
 
     return (
         <div>
             <Collapse defaultActiveKey={["1"]}>
-                <Panel header="This is panel header" key="1">
-                    <Radio.Group onChange={handleChange} value = {this.state.value}>
+                <Panel header="This is panel header 2" key="1">
+                    <Radio.Group onChange={handleChange} value = {Value}>
                         {renderRadioboxLists()}
                     </Radio.Group>
                 </Panel>
