@@ -7,6 +7,7 @@ import ImagesSlider from '../../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
 import {continents,price } from './Sections/Datas';
+import SearchFeature from './Sections/SearchFeature'
 
 const { Meta } = Card;
 
@@ -102,7 +103,6 @@ export const LandingPage = (props) => {
                 <h2> Let's travel anywhere </h2>
             </div>
 
-
             <Row gutter={[16,16]}>
                 <Col lg={12} xs={24}>
                     <CheckBox list={continents} handleFilters={filter => handleFilters(filter,"continents")}/>
@@ -112,6 +112,11 @@ export const LandingPage = (props) => {
                 </Col>
             </Row>
 
+            <div style= {{display: 'flex', justifyContent: 'flex-end', margin: '1rem auto'}} >
+                <SearchFeature />
+            </div>
+            
+            <br/>
             <Row gutter={[16,16]}>
              {renderCards}
             </Row>
