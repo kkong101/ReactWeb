@@ -74,11 +74,24 @@ router.post('/products',(req,res) => {
             if(err) return res.status(400).json({success: false, err})
             return res.status(200).json({success: true, productInfo, postSize: productInfo.length})
         })
-    }
-
-    
+    }  
 })
 
 
+router.get('/products_by_id',(req,res) => {
+
+    let type = req.query.type
+    let productId = req.query.id
+
+    Product.find({_id:productId})
+        .populate('writer')
+        .exec((err,product) => {
+            if(err) return res.status(400).send(err)
+            return res.status(200).send({success: true, product})
+        })
+
+})
+
+//axios.get(`/api/product/products_by_id?id=${productId}&type=single`)
 
 module.exports = router;

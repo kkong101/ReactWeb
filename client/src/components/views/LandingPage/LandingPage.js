@@ -82,7 +82,7 @@ export const LandingPage = (props) => {
     const renderCards = Products.map((product, index) => {
         console.log(product)
         return <Col lg={6} md={8} xs={24} >
-        <Card key={index} cover={ <ImagesSlider images={product.images} />} >
+        <Card cover={ <a href={`/product/${product._id}`}> <ImagesSlider images={product.images} /> </a> } >
             <Meta title={product.title} description={`${product.price}`} />
         </Card>
         </Col>
