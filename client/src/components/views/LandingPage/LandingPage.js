@@ -17,6 +17,7 @@ export const LandingPage = (props) => {
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(8)
     const [PostSize, setPostSize] = useState(0)
+    const [SearchTerm, setSearchTerm] = useState("")
     const [Filters, setFilters] = useState({
         continents: [],
         price : []
@@ -36,7 +37,6 @@ export const LandingPage = (props) => {
     const getProducts = (body) => {
         axios.post('/api/product/products', body)
         .then(response => {
-            
             if (response.data.success) {
                 if(body.loadMore) { 
                     setProducts([...Products, ...response.data.productInfo])
@@ -60,9 +60,22 @@ export const LandingPage = (props) => {
             limit: Limit,
             loadMore: true
         }
-
+        
         getProducts(body)
         setSkip(skip)
+    }
+
+    const updateSearchTerm = (newSearchTerm) => {
+        let body = {
+            skip: 0,
+            limit: Limit,
+            filter: Filters,
+            searchTerm: newSearchTerm
+        }
+
+        setSkip(0)
+        setSearchTerm(newSearchTerm)
+        getProducts(body)
     }
 
 
@@ -84,6 +97,7 @@ export const LandingPage = (props) => {
         }
 
         getProducts(body)
+
         setSkip(0)
     }
 
@@ -93,7 +107,6 @@ export const LandingPage = (props) => {
         newFilters[category] = filters
 
         showFilteredResults(newFilters)
-
     }
 
 
@@ -113,14 +126,13 @@ export const LandingPage = (props) => {
             </Row>
 
             <div style= {{display: 'flex', justifyContent: 'flex-end', margin: '1rem auto'}} >
-                <SearchFeature />
+                <SearchFeature refreshFunction={updateSearchTerm}/>
             </div>
-            
+
             <br/>
             <Row gutter={[16,16]}>
              {renderCards}
             </Row>
-
             <br/>
 
             {
@@ -129,7 +141,6 @@ export const LandingPage = (props) => {
                     <button onClick={loadMoreHandler}>더보기</button>
                     </div>
             }
-
 
         </div>
     )
