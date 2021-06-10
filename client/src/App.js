@@ -9,6 +9,7 @@ import Footer from "./components/views/Footer/Footer"
 import NavBar from "./components/views/NavBar/NavBar"
 import UploadProductPage from "./components/views/UploadProductPage/UploadProductPage"
 import DetailProductPage from "./components/views/DetailProductPage/DetailProductPage"
+import CartPage from "./components/views/CartPage/CartPage"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
             <Switch>
               <Route exact path="/" component={Auth(LandingPage, null)} />
+              <Route exact path="/user/cart" component={Auth(CartPage, null)} />
               <Route exact path="/login" component={Auth(LoginPage, false)} />
               <Route exact path="/register" component={Auth(RegisterPage, false)} />
               <Route exact path="/upload" component={Auth(UploadProductPage, true)} />

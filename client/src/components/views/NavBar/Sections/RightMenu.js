@@ -1,9 +1,10 @@
 import React from 'react';
-import {Menu} from 'antd';
+import {Menu, Badge} from 'antd';
 import axios from 'axios';
 import { USER_SERVER } from '../../../../Config';
 import { useSelector } from "react-redux";
 import {createBrowserHistory} from 'history'
+import {ShoppingCartOutlined} from '@ant-design/icons'
 
 export const browserHistory = createBrowserHistory();
 
@@ -14,7 +15,6 @@ function RightMenu(props) {
     axios.get(`${USER_SERVER}/logout`).then(response => {
       if (response.status === 200) {
         //props.history.push("/login");
-        console.log('gd')
         browserHistory.push('/login')
       } else {
         alert('Log Out Failed')
@@ -48,14 +48,13 @@ function RightMenu(props) {
             <a href="/product/upload">Upload</a>
           </Menu.Item>
 
-          {/* <Menu.Item key="cart" style={{ paddingBottom: 3 }}>
-            <Badge count={user.userData && user.userData.cart.length}>
-              <a href="/user/cart" style={{ marginRight: -22 , color:'#667777'}}>
-                <Icon type="shopping-cart" style={{ fontSize: 30, marginBottom: 3 }} />
+          <Menu.Item key="cart" style= {{paddingTop: 4}}>
+            <Badge count={5}>
+              <a href="/users/cart" className="head-example" style={{marginRight: -22, color: '#667777'}}> 
+                <ShoppingCartOutlined style= {{fontSize: 30 }}/>
               </a>
             </Badge>
-          </Menu.Item> */}
-
+          </Menu.Item>
 
           <Menu.Item key="logout">
             <a onClick={logoutHandler}>Logout</a>
