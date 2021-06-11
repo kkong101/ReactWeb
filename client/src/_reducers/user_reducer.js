@@ -3,7 +3,8 @@ import {
     REGISTER_USER,
     AUTH_USER,
     ADD_TO_CART,
-    LOGOUT_USER
+    LOGOUT_USER,
+    GET_CART_ITEMS
 } from '../_actions/types';
 
 
@@ -14,7 +15,7 @@ export default function(state={}, action) {
             break;
         case REGISTER_USER:
             return {...state, register: action.payload}
-            break;
+            break; 
         case AUTH_USER:
             return {...state, userData: action.payload}
             break;
@@ -27,6 +28,8 @@ export default function(state={}, action) {
                     cart: action.payload
                 }
             }
+        case GET_CART_ITEMS:
+            return {...state, cartDetail: action.payload}
         default:
             return state
     }

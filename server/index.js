@@ -5,6 +5,7 @@ const config = require('./config/key')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -27,6 +28,11 @@ app.get('/', (req,res) => {
     res.send("Server Page");
 })
 
+app.use(cors())
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 
 // router 

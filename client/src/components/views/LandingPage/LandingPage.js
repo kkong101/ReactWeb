@@ -97,7 +97,6 @@ export const LandingPage = (props) => {
         }
 
         getProducts(body)
-
         setSkip(0)
     }
 

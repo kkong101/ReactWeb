@@ -78,20 +78,31 @@ router.post('/products',(req,res) => {
 })
 
 
-router.get('/products_by_id',(req,res) => {
-
+router.get("/products_by_id", (req, res) => {
     let type = req.query.type
-    let productId = req.query.id
+    let productIds = req.query.id
 
-    Product.find({_id:productId})
-        .populate('writer')
-        .exec((err,product) => {
-            if(err) return res.status(400).send(err)
-            return res.status(200).send({success: true, product})
+    console.log("req.query.id", req.query.id)
+
+    if (type === "array") {
+        let ids = req.query.id.split(',');
+        productIds = [];
+        productIds = ids.map(item => {
+            return item
         })
+    }
 
-})
+    console.log("productIds", productIds)
 
-//axios.get(`/api/product/products_by_id?id=${productId}&type=single`)
+
+    //we need to find the product information that belong to product Id 
+    Product.find({ '_id': { $in: productIds } })
+        .populate('writer')
+        .exec((err, product) => {
+            if (err) return res.status(400).send(err)
+            return res.status(200).send(product)
+        })
+});
+
 
 module.exports = router;
