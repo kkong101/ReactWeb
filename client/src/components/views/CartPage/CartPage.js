@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import { useDispatch} from 'react-redux'
 import { getCartItems} from '../../../_actions/user_action';
+import {UserCardBlock} from './Sections/UserCardBlock'
 
 function CartPage(props) {
 
