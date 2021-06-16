@@ -50,7 +50,7 @@ function RightMenu(props) {
 
           <Menu.Item key="cart" style= {{paddingTop: 4}}>
             <Badge count={5}>
-              <a href="/users/cart" className="head-example" style={{marginRight: -22, color: '#667777'}}> 
+              <a href="/user/cart" className="head-example" style={{marginRight: -22, color: '#667777'}}> 
                 <ShoppingCartOutlined style= {{fontSize: 30 }}/>
               </a>
             </Badge>
